@@ -46,6 +46,38 @@ function! syslib#rename_file(from, to) "{{{
     return rename(a:from, a:to)
 endfunction "}}}
 
+function! syslib#is_file(name) "{{{
+    return getftype(a:name) ==# 'file'
+endfunction "}}}
+
+function! syslib#is_dir(name) "{{{
+    return getftype(a:name) ==# 'dir'
+endfunction "}}}
+
+function! syslib#is_symlink(name) "{{{
+    return getftype(a:name) ==# 'link'
+endfunction "}}}
+
+function! syslib#is_block_device(name) "{{{
+    return getftype(a:name) ==# 'bdev'
+endfunction "}}}
+
+function! syslib#is_character_device(name) "{{{
+    return getftype(a:name) ==# 'cdev'
+endfunction "}}}
+
+function! syslib#is_socket(name) "{{{
+    return getftype(a:name) ==# 'socket'
+endfunction "}}}
+
+function! syslib#is_fifo(name) "{{{
+    return getftype(a:name) ==# 'fifo'
+endfunction "}}}
+
+function! syslib#is_other(name) "{{{
+    return getftype(a:name) ==# 'other'
+endfunction "}}}
+
 
 
 function! syslib#system(expr, ...) "{{{
@@ -91,10 +123,6 @@ endfunction "}}}
 
 function! syslib#remove_path(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#remove_path', a:000)
-endfunction "}}}
-
-function! syslib#is_symlink(...) "{{{
-    return call('syslib#' . syslib#get_os_name() . '#is_symlink', a:000)
 endfunction "}}}
 
 function! syslib#create_symlink(...) "{{{
