@@ -18,10 +18,6 @@ function! syslib#unix#rename_directory(name) "{{{
 endfunction "}}}
 
 " TODO
-function! syslib#unix#remove_path(name, recursively) "{{{
-endfunction "}}}
-
-" TODO
 function! syslib#unix#create_symlink(name, to_path) "{{{
 endfunction "}}}
 

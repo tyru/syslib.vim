@@ -57,6 +57,12 @@ function! syslib#follow_symlink(name) "{{{
     return resolve(a:name)
 endfunction "}}}
 
+function! syslib#remove_path(name) "{{{
+    return call('syslib#' . syslib#get_os_name() . '#remove_path', a:000)
+endfunction "}}}
+
+
+
 function! syslib#is_file(name) "{{{
     return getftype(a:name) ==# 'file'
 endfunction "}}}
@@ -130,10 +136,6 @@ endfunction "}}}
 
 function! syslib#close_file(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#close_file', a:000)
-endfunction "}}}
-
-function! syslib#remove_path(...) "{{{
-    return call('syslib#' . syslib#get_os_name() . '#remove_path', a:000)
 endfunction "}}}
 
 function! syslib#create_symlink(...) "{{{
