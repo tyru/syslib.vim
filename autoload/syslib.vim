@@ -121,6 +121,37 @@ endfunction "}}}
 
 
 
+function! syslib#_libcall(...) "{{{
+    return call('s:libcall', [0] + a:000)
+endfunction "}}}
+
+function! syslib#_libcallnr(...) "{{{
+    return call('s:libcall', [1] + a:000)
+endfunction "}}}
+
+function! s:libcall(libcallnr, funcname, args) "{{{
+    return call(
+    \   (a:libcallnr ? 'libcallnr' : 'libcall'),
+    \   [
+    \       g:syslib_dll_path,
+    \       a:funcname,
+    \       s:pack_arguments(a:args),
+    \   ]
+    \)
+endfunction "}}}
+
+function! s:pack_arguments(args) "{{{
+    if type(a:args) != type([]) || empty(a:args)
+        throw printf('syslib: s:pack_arguments(): invalid argument')
+    elseif len(a:args) == 1
+        return a:args[0]
+    else
+        " TODO
+    endif
+endfunction "}}}
+
+
+
 " Stubs for each architecture.
 function! syslib#remove_directory(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#remove_directory', a:000)
