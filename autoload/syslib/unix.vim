@@ -16,12 +16,12 @@ endfunction "}}}
 function! syslib#unix#rename_directory(old, new) "{{{
 endfunction "}}}
 
-" TODO
 function! syslib#unix#create_symlink(name, to_path) "{{{
+    return syslib#_libcallnr('create_symlink', [a:name, a:to_path])
 endfunction "}}}
 
-" TODO
 function! syslib#unix#create_hardlink(name, to_path) "{{{
+    return syslib#_libcallnr('create_hardlink', [a:name, a:to_path])
 endfunction "}}}
 
 

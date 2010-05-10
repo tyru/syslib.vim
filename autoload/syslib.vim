@@ -143,10 +143,17 @@ endfunction "}}}
 function! s:pack_arguments(args) "{{{
     if type(a:args) != type([]) || empty(a:args)
         throw printf('syslib: s:pack_arguments(): invalid argument')
-    elseif len(a:args) == 1
-        return a:args[0]
     else
-        " TODO
+        return join(map(copy(a:args), 's:pack(v:val)'), "\xFF\xFF")
+    endif
+endfunction "}}}
+function! s:pack(value) "{{{
+    if type(a:value) == type(0)
+        return a:value . ""
+    elseif type(a:value) == type("")
+        return substitute(a:value, '[\xff]', "\xFF\xFF", 'g')
+    else
+        throw printf('syslib: s:pack(): invalid argument')
     endif
 endfunction "}}}
 
