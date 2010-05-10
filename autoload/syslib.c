@@ -14,6 +14,11 @@
 #   error Your platform is not supported!!
 #endif
 
+#if NDEBUG
+#   include <assert.h>
+#else
+#   define assert()
+#endif
 
 
 
