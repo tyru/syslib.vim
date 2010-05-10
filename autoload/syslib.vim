@@ -6,10 +6,6 @@ let s:save_cpo = &cpo
 set cpo&vim
 " }}}
 
-" Functions {{{
-
-
-
 " Get current OS name string. "{{{
 if has('win16') || has('win32') || has('win64') || has('win95')
     " MS Windows.
@@ -38,6 +34,7 @@ if has('iconv')
 endif
 " }}}
 
+" Functions {{{
 
 " Wrapper for built-in functions.
 function! syslib#create_directory(name, ...) "{{{
