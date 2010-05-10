@@ -30,8 +30,8 @@ endif
 
 
 " Wrapper for built-in functions.
-function! syslib#create_directory(name, prot) "{{{
-    return mkdir(a:name, '', a:prot)
+function! syslib#create_directory(name, ...) "{{{
+    return call('mkdir', [a:name, ''] + a:000)
 endfunction "}}}
 
 function! syslib#make_path(name, prot) "{{{
