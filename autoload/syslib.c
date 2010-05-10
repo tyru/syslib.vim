@@ -1,6 +1,6 @@
 /* vim:ts=4:sw=4:sts=0:tw=0:set et: */
-/* 
- * syslib.c - 
+/*
+ * syslib.c
  *
  * Written By: tyru <tyru.exe@gmail.com>
  * Last Change: 2010-05-11.
