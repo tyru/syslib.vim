@@ -27,6 +27,16 @@ else
 endif
 " }}}
 
+" Global Variables {{{
+if !exists('g:syslib_dll_path')
+    let g:syslib_dll_path = expand("<sfile>:p:h") . '/' . (syslib#get_os_name() ==# 'win' || exists('$WINDIR') ? 'syslib.dll' : 'syslib.so')
+endif
+if has('iconv')
+  " Dll path should be encoded with default encoding.  Vim does not convert
+  " it from &enc to default encoding.
+  let g:syslib_dll_path = iconv(g:syslib_dll_path, &encoding, "default")
+endif
+" }}}
 
 
 " Wrapper for built-in functions.

@@ -12,12 +12,6 @@ let s:save_cpo = &cpo
 set cpo&vim
 " }}}
 
-" Global Variables {{{
-if !exists('g:syslib_debug')
-    let g:syslib_debug = 0
-endif
-" }}}
-
 " Restore 'cpoptions' {{{
 let &cpo = s:save_cpo
 " }}}
