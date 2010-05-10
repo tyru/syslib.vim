@@ -8,7 +8,6 @@ set cpo&vim
 
 " Functions {{{
 
-" TODO
 function! syslib#unix#remove_directory(name) "{{{
     return libcallnr(g:syslib_dll_path, 'remove_directory', a:name)
 endfunction "}}}
