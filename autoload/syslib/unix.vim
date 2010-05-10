@@ -18,6 +18,16 @@ function! syslib#unix#rename_directory(name) "{{{
 endfunction "}}}
 
 " TODO
+function! syslib#unix#remove_path(name, recursively) "{{{
+endfunction "}}}
+
+" TODO
+function! syslib#unix#create_symlink(name, to_path) "{{{
+endfunction "}}}
+
+
+
+" TODO
 function! syslib#unix#open_file_fd(name, mode) "{{{
 endfunction "}}}
 
@@ -39,18 +49,6 @@ endfunction "}}}
 
 " TODO
 function! syslib#unix#fdatasync_file_fd(fd) "{{{
-endfunction "}}}
-
-" TODO
-function! syslib#unix#remove_path(name, recursively) "{{{
-endfunction "}}}
-
-" TODO
-function! syslib#unix#create_symlink(name, to_path) "{{{
-endfunction "}}}
-
-" TODO
-function! s:readlink(name) "{{{
 endfunction "}}}
 
 " }}}
