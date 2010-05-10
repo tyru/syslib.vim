@@ -40,15 +40,15 @@ function! syslib#unix#seek_file_fd(fd, offset, whence) "{{{
 endfunction "}}}
 
 " TODO
+function! syslib#unix#read_file_fd(fd, buf, count) "{{{
+endfunction "}}}
+
+" TODO
 function! syslib#unix#write_file_fd(fd, buf, count) "{{{
 endfunction "}}}
 
 " TODO
-function! syslib#unix#fsync_file_fd(fd) "{{{
-endfunction "}}}
-
-" TODO
-function! syslib#unix#fdatasync_file_fd(fd) "{{{
+function! syslib#unix#flush_file_fd(fd) "{{{
 endfunction "}}}
 
 " }}}

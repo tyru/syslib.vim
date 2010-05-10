@@ -130,14 +130,6 @@ function! syslib#rename_directory(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#rename_directory', a:000)
 endfunction "}}}
 
-function! syslib#open_file(...) "{{{
-    return call('syslib#' . syslib#get_os_name() . '#open_file', a:000)
-endfunction "}}}
-
-function! syslib#close_file(...) "{{{
-    return call('syslib#' . syslib#get_os_name() . '#close_file', a:000)
-endfunction "}}}
-
 function! syslib#create_symlink(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#create_symlink', a:000)
 endfunction "}}}
@@ -146,6 +138,31 @@ function! syslib#create_hardlink(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#create_hardlink', a:000)
 endfunction "}}}
 
+
+
+function! syslib#open_file_fd(...) "{{{
+    return call('syslib#' . syslib#get_os_name() . '#open_file_fd', a:000)
+endfunction "}}}
+
+function! syslib#close_file_fd(...) "{{{
+    return call('syslib#' . syslib#get_os_name() . '#close_file_fd', a:000)
+endfunction "}}}
+
+function! syslib#seek_file_fd(...) "{{{
+    return call('syslib#' . syslib#get_os_name() . '#seek_file_fd', a:000)
+endfunction "}}}
+
+function! syslib#read_file_fd(...) "{{{
+    return call('syslib#' . syslib#get_os_name() . '#read_file_fd', a:000)
+endfunction "}}}
+
+function! syslib#write_file_fd(...) "{{{
+    return call('syslib#' . syslib#get_os_name() . '#write_file_fd', a:000)
+endfunction "}}}
+
+function! syslib#flush_file_fd(...) "{{{
+    return call('syslib#' . syslib#get_os_name() . '#flush_file_fd', a:000)
+endfunction "}}}
 " }}}
 
 " Restore 'cpoptions' {{{
