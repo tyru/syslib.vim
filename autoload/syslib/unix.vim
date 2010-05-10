@@ -32,18 +32,6 @@ endfunction "}}}
 function! syslib#unix#create_symlink(name, to_path) "{{{
 endfunction "}}}
 
-function! syslib#unix#follow_symlink(name, recursively) "{{{
-    let name = a:name
-    if a:recursively
-        while syslib#is_symlink(name)
-            let name = s:readlink(name)
-        endwhile
-        return name
-    else
-        return s:readlink(name)
-    endif
-endfunction "}}}
-
 " TODO
 function! s:readlink(name) "{{{
 endfunction "}}}

@@ -46,6 +46,10 @@ function! syslib#rename_file(from, to) "{{{
     return rename(a:from, a:to)
 endfunction "}}}
 
+function! syslib#follow_symlink(name) "{{{
+    return resolve(a:name)
+endfunction "}}}
+
 function! syslib#is_file(name) "{{{
     return getftype(a:name) ==# 'file'
 endfunction "}}}
@@ -127,10 +131,6 @@ endfunction "}}}
 
 function! syslib#create_symlink(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#create_symlink', a:000)
-endfunction "}}}
-
-function! syslib#follow_symlink(...) "{{{
-    return call('syslib#' . syslib#get_os_name() . '#follow_symlink', a:000)
 endfunction "}}}
 
 function! syslib#create_hardlink(...) "{{{
