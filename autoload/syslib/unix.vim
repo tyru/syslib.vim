@@ -13,7 +13,7 @@ function! syslib#unix#remove_directory(name) "{{{
 endfunction "}}}
 
 " TODO
-function! syslib#unix#rename_directory(name) "{{{
+function! syslib#unix#rename_directory(old, new) "{{{
 endfunction "}}}
 
 " TODO
