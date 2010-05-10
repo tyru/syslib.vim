@@ -18,11 +18,27 @@ function! syslib#unix#rename_directory(name) "{{{
 endfunction "}}}
 
 " TODO
-function! syslib#unix#open_file(name, mode) "{{{
+function! syslib#unix#open_file_fd(name, mode) "{{{
 endfunction "}}}
 
 " TODO
-function! syslib#unix#close_file(name, mode) "{{{
+function! syslib#unix#close_file_fd(fd) "{{{
+endfunction "}}}
+
+" TODO
+function! syslib#unix#seek_file_fd(fd, offset, whence) "{{{
+endfunction "}}}
+
+" TODO
+function! syslib#unix#write_file_fd(fd, buf, count) "{{{
+endfunction "}}}
+
+" TODO
+function! syslib#unix#fsync_file_fd(fd) "{{{
+endfunction "}}}
+
+" TODO
+function! syslib#unix#fdatasync_file_fd(fd) "{{{
 endfunction "}}}
 
 " TODO
