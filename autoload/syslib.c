@@ -90,7 +90,7 @@ allocate_arg_obj(Arg *arg, size_t buf_size)
 
 /* Argument functions */
 static Arg*
-desirialize_args(char *args)
+deserialize_args(char *args)
 {
     // TODO Count arguments' length.
     size_t args_len;
@@ -105,7 +105,7 @@ desirialize_args(char *args)
 }
 
 static char*
-sirialize_args(Arg* arg)
+serialize_args(Arg* arg)
 {
 }
 
@@ -121,7 +121,7 @@ remove_directory(const char *pathname)
 int
 create_symlink(char *args)
 {
-    Arg *real_args = desirialize_args(args);
+    Arg *real_args = deserialize_args(args);
     assert(cur_args_num == 2);
     return symlink(real_args[0].buf, real_args[1].buf);
 }
@@ -129,7 +129,7 @@ create_symlink(char *args)
 int
 create_hardlink(char *args)
 {
-    Arg *real_args = desirialize_args(args);
+    Arg *real_args = deserialize_args(args);
     assert(cur_args_num == 2);
     return link(real_args[0].buf, real_args[1].buf);
 }
