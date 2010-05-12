@@ -42,8 +42,10 @@
 int get_current_errno(void);
 int get_last_errno(void);
 int remove_directory(const char *pathname);
-int create_symlink(char *args);
-int create_hardlink(char *args);
+int create_symlink(const char *args);
+int create_symlink_args(const char *from_symlink, const char *to_path);
+int create_hardlink(const char *args);
+int create_hardlink_args(const char *from_hardlink, const char *to_path);
 
 
 
@@ -184,21 +186,41 @@ get_last_errno(void)
 int
 remove_directory(const char *pathname)
 {
-    return rmdir(pathname);
+    int ret = rmdir(pathname);
+    if (ret == -1) {
+        last_errno = errno;
+    }
+    return ret;
 }
 
 int
-create_symlink(char *args)
+create_symlink(const char *args)
 {
-    Arg *real_args = deserialize_args(args);
-    assert(cur_args_num == 2);
-    return symlink(real_args[0].buf, real_args[1].buf);
+    NodeArg *real_args = deserialize_args(args);
+    return create_symlink_args(real_args->buf, real_args->next->buf);
+}
+int
+create_symlink_args(const char *from_symlink, const char *to_path)
+{
+    int ret = symlink(to_path, from_symlink);
+    if (ret == -1) {
+        last_errno = ret;
+    }
+    return ret;
 }
 
 int
-create_hardlink(char *args)
+create_hardlink(const char *args)
 {
-    Arg *real_args = deserialize_args(args);
-    assert(cur_args_num == 2);
-    return link(real_args[0].buf, real_args[1].buf);
+    NodeArg *real_args = deserialize_args(args);
+    return create_hardlink_args(real_args->buf, real_args->next->buf);
+}
+int
+create_hardlink_args(const char *from_hardlink, const char *to_path)
+{
+    int ret = link(to_path, from_hardlink);
+    if (ret == -1) {
+        last_errno = ret;
+    }
+    return ret;
 }

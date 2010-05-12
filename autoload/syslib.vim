@@ -121,6 +121,24 @@ endfunction "}}}
 
 
 
+function! syslib#get_current_errno() "{{{
+    return syslib#_libcallnr('get_current_errno', [])
+endfunction "}}}
+
+function! syslib#get_last_errno() "{{{
+    return syslib#_libcallnr('get_last_errno', [])
+endfunction "}}}
+
+function! syslib#create_symlink(from_symlink, to_path) "{{{
+    return syslib#_libcallnr('create_symlink', [a:from_symlink, a:to_path])
+endfunction "}}}
+
+function! syslib#create_hardlink(from_hardlink, to_path) "{{{
+    return syslib#_libcallnr('create_hardlink', [a:from_hardlink, a:to_path])
+endfunction "}}}
+
+
+
 function! syslib#_libcall(...) "{{{
     return s:deserialize(call('s:libcall', [0] + a:000))
 endfunction "}}}
@@ -216,14 +234,6 @@ endfunction "}}}
 
 function! syslib#rename_directory(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#rename_directory', a:000)
-endfunction "}}}
-
-function! syslib#create_symlink(...) "{{{
-    return call('syslib#' . syslib#get_os_name() . '#create_symlink', a:000)
-endfunction "}}}
-
-function! syslib#create_hardlink(...) "{{{
-    return call('syslib#' . syslib#get_os_name() . '#create_hardlink', a:000)
 endfunction "}}}
 
 
