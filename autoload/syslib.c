@@ -3,7 +3,7 @@
  * syslib.c
  *
  * Written By: tyru <tyru.exe@gmail.com>
- * Last Change: 2010-05-11.
+ * Last Change: 2010-05-13.
  *
  */
 
@@ -14,10 +14,23 @@
 #   error Your platform is not supported!!
 #endif
 
-#if NDEBUG
-#   include <assert.h>
+#include <string.h>
+#include <stdlib.h>
+
+
+
+/* Debug */
+
+// #define NDEBUG 1
+
+#include <assert.h>
+
+#ifdef NDEBUG
+#   define syslib_log(str)
+#   define syslib_logf()
 #else
-#   define assert()
+#   define syslib_log(str)  puts(str)
+#   define syslib_logf printf
 #endif
 
 
