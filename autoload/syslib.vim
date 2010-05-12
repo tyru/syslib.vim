@@ -122,7 +122,7 @@ endfunction "}}}
 
 
 function! syslib#_libcall(...) "{{{
-    return call('s:libcall', [0] + a:000)
+    return s:deserialize(call('s:libcall', [0] + a:000))
 endfunction "}}}
 
 function! syslib#_libcallnr(...) "{{{
@@ -135,25 +135,75 @@ function! s:libcall(libcallnr, funcname, args) "{{{
     \   [
     \       g:syslib_dll_path,
     \       a:funcname,
-    \       s:pack_arguments(a:args),
+    \       s:serialize(a:args),
     \   ]
     \)
 endfunction "}}}
 
-function! s:pack_arguments(args) "{{{
+function! s:serialize(args) "{{{
     if type(a:args) != type([]) || empty(a:args)
-        throw printf('syslib: s:pack_arguments(): invalid argument')
+        throw printf('syslib: s:serialize(): invalid argument')
+    elseif len(a:args) == 1
+        " Do not serialize one argument; it is wasteful.
+        " C function which has one argument receives raw argument, not serialized.
+        return a:args[0]
     else
-        return join(map(copy(a:args), 's:pack(v:val)'), "\xFF\xFF")
+        let ret = ''
+        for arg in a:args
+            for c in split(arg, '\zs')
+                if c ==# "\xFF"    " separator
+                    let ret .= "\xFE\xFF"
+                elseif c ==# "\xFE"    " escape character
+                    let ret .= "\xFE\xFE"
+                else
+                    let ret .= c
+                endif
+            endfor
+            let ret .= "\xFF"
+        endfor
+        return ret . "\xFF"    " \xFF\xFF at the end of data.
     endif
 endfunction "}}}
-function! s:pack(value) "{{{
-    if type(a:value) == type(0)
-        return a:value . ""
-    elseif type(a:value) == type("")
-        return substitute(a:value, '[\xff]', "\xFF\xFF", 'g')
+function! s:deserialize(bytes) "{{{
+    if type(a:bytes) != type("")
+        throw printf('syslib: s:deserialize(): invalid argument')
     else
-        throw printf('syslib: s:pack(): invalid argument')
+        let cur_arg = ''
+        let ret = []
+        let pos = 0
+        let len = strlen(a:bytes)
+        let invalid_argument = 'syslib: s:deserialize(): invalid byte sequence'
+        while pos < len
+            let char      = a:bytes[pos]
+            let next_char = a:bytes[pos + 1]
+
+            if char ==# "\xFE"    " escape character
+                if pos + 1 >= len
+                    throw invalid_argument . " - No more bytes"
+                elseif next_char ==# "\xFE"
+                    let cur_arg .= "\xFE"
+                    let pos += 2
+                    continue
+                elseif next_char ==# "\xFF"
+                    let cur_arg .= "\xFF"
+                    let pos += 2
+                    continue
+                else
+                    throw invalid_argument . " - Escaped but not special character"
+                endif
+            elseif char ==# "\xFF"    " separator
+                call add(ret, cur_arg)
+                if next_char ==# "\xFF"
+                    return ret
+                endif
+                let cur_arg = ''
+                let pos += 1
+            else
+                let cur_arg .= char
+                let pos += 1
+            endif
+        endwhile
+        throw invalid_argument . " - End of bytes"
     endif
 endfunction "}}}
 
