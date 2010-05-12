@@ -30,6 +30,7 @@
 #   define syslib_log(str)
 #   define syslib_logf()
 #else
+#   include <stdio.h>
 #   define syslib_log(str)  puts(str)
 #   define syslib_logf printf
 #endif
