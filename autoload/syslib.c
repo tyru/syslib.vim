@@ -39,6 +39,8 @@
 
 
 /* API */
+int get_current_errno(void);
+int get_last_errno(void);
 int remove_directory(const char *pathname);
 int create_symlink(char *args);
 int create_hardlink(char *args);
@@ -167,16 +169,17 @@ deserialize_args(const char *args)
 
 
 
-    return the_args;
-}
-
-static char*
-serialize_args(Arg* arg)
+int
+get_current_errno(void)
 {
+    return errno;
 }
 
-
-
+int
+get_last_errno(void)
+{
+    return last_errno;
+}
 
 int
 remove_directory(const char *pathname)
