@@ -36,6 +36,10 @@ endif
 
 " Functions {{{
 
+function! syslib#load() "{{{
+    " dummy function to load this file.
+endfunction "}}}
+
 " Wrapper for built-in functions.
 function! syslib#create_directory(name, ...) "{{{
     return call('mkdir', [a:name, ''] + a:000)
