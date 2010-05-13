@@ -53,8 +53,8 @@ static int syslib_create_hardlink_args(const char *path, const char *hardlink_pa
 /* NodeArg types */
 typedef struct NodeArg_tag {
     struct NodeArg_tag *next;
-    char                 *buf;
-    size_t                buf_size;
+    char               *buf;
+    size_t              buf_size;
 } NodeArg;
 
 
