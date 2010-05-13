@@ -44,11 +44,19 @@ endfunction "}}}
 
 " Wrapper for built-in functions.
 function! syslib#create_directory(name, ...) "{{{
-    return call('mkdir', [a:name, ''] + a:000)
+    try
+        return call('mkdir', [a:name, ''] + a:000)
+    catch /E739:/    " Can't create directory.
+        return 0
+    endtry
 endfunction "}}}
 
-function! syslib#make_path(name, prot) "{{{
-    return mkdir(a:name, 'p', a:prot)
+function! syslib#make_path(name, ...) "{{{
+    try
+        return call('mkdir', [a:name, 'p'] + a:000)
+    catch /E739:/    " Can't create directory.
+        return 0
+    endtry
 endfunction "}}}
 
 function! syslib#remove_file(fname) "{{{
