@@ -13,6 +13,10 @@
 
 
 
+// TOOD If compiler has `inline`, #define INLINE inline
+#define INLINE
+
+
 /* Debug */
 
 #define NDEBUG 1
@@ -21,7 +25,11 @@
 
 #ifdef NDEBUG
 #   define syslib_log(str)
-#   define syslib_logf
+INLINE static int
+syslib_logf(const char *fmt, ...)
+{
+    return 1;
+}
 #else
 #   include <stdio.h>
 #   define syslib_log(str)  puts(str)
