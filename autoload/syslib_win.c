@@ -28,12 +28,7 @@ syslib_get_last_errno(void)
 int
 syslib_remove_directory(const char *pathname)
 {
-    return 0;
-    // int ret = rmdir(pathname);
-    // if (ret == -1) {
-    //     last_errno = errno;
-    // }
-    // return ret;
+    return RemoveDirectory(pathname);
 }
 
 int
