@@ -77,6 +77,10 @@ endfunction "}}}
 
 
 
+function! syslib#is_exist(name) "{{{
+    return getftype(a:name) != ''
+endfunction "}}}
+
 function! syslib#is_file(name) "{{{
     return getftype(a:name) ==# 'file'
 endfunction "}}}
