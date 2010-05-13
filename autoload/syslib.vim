@@ -51,7 +51,7 @@ function! syslib#create_directory(name, ...) "{{{
     endtry
 endfunction "}}}
 
-function! syslib#make_path(name, ...) "{{{
+function! syslib#create_path(name, ...) "{{{
     try
         return call('mkdir', [a:name, 'p'] + a:000)
     catch /E739:/    " Can't create directory.
