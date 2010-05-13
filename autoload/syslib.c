@@ -22,7 +22,7 @@
 
 /* Debug */
 
-// #define NDEBUG 1
+#define NDEBUG 1
 
 #include <assert.h>
 
