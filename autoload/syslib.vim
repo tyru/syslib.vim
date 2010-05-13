@@ -34,6 +34,15 @@ if has('iconv')
 endif
 " }}}
 
+" TODO
+" - rename_directory()
+" - open_file_fd()
+" - close_file_fd()
+" - seek_file_fd()
+" - read_file_fd()
+" - write_file_fd()
+" - flush_file_fd()
+
 " Functions {{{
 
 function! syslib#load() "{{{
