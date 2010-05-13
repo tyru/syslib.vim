@@ -36,13 +36,27 @@ endif
 
 " Functions {{{
 
-" Wrapper for built-in functions.
-function! syslib#create_directory(name, ...) "{{{
-    return call('mkdir', [a:name, ''] + a:000)
+function! syslib#load() "{{{
+    " dummy function to load this file.
 endfunction "}}}
 
-function! syslib#make_path(name, prot) "{{{
-    return mkdir(a:name, 'p', a:prot)
+
+
+" Wrapper for built-in functions.
+function! syslib#create_directory(name, ...) "{{{
+    try
+        return call('mkdir', [a:name, ''] + a:000)
+    catch /E739:/    " Can't create directory.
+        return 0
+    endtry
+endfunction "}}}
+
+function! syslib#create_path(name, ...) "{{{
+    try
+        return call('mkdir', [a:name, 'p'] + a:000)
+    catch /E739:/    " Can't create directory.
+        return 0
+    endtry
 endfunction "}}}
 
 function! syslib#remove_file(fname) "{{{
@@ -121,8 +135,26 @@ endfunction "}}}
 
 
 
+function! syslib#get_current_errno() "{{{
+    return syslib#_libcallnr('get_current_errno', [])
+endfunction "}}}
+
+function! syslib#get_last_errno() "{{{
+    return syslib#_libcallnr('get_last_errno', [])
+endfunction "}}}
+
+function! syslib#create_symlink(path, symlink_path) "{{{
+    return syslib#_libcallnr('create_symlink', [a:path, a:symlink_path])
+endfunction "}}}
+
+function! syslib#create_hardlink(path, hardlink_path) "{{{
+    return syslib#_libcallnr('create_hardlink', [a:path, a:hardlink_path])
+endfunction "}}}
+
+
+
 function! syslib#_libcall(...) "{{{
-    return call('s:libcall', [0] + a:000)
+    return s:deserialize(call('s:libcall', [0] + a:000))
 endfunction "}}}
 
 function! syslib#_libcallnr(...) "{{{
@@ -134,19 +166,76 @@ function! s:libcall(libcallnr, funcname, args) "{{{
     \   (a:libcallnr ? 'libcallnr' : 'libcall'),
     \   [
     \       g:syslib_dll_path,
-    \       a:funcname,
-    \       s:pack_arguments(a:args),
+    \       'syslib_' . a:funcname,
+    \       (empty(a:args) ? '' : s:serialize(a:args)),
     \   ]
     \)
 endfunction "}}}
 
-function! s:pack_arguments(args) "{{{
+function! s:serialize(args) "{{{
     if type(a:args) != type([]) || empty(a:args)
-        throw printf('syslib: s:pack_arguments(): invalid argument')
+        throw printf('syslib: s:serialize(): invalid argument')
     elseif len(a:args) == 1
+        " Do not serialize one argument; it is wasteful.
+        " C function which has one argument receives raw argument, not serialized.
         return a:args[0]
     else
-        " TODO
+        let ret = ''
+        for arg in a:args
+            for c in split(arg, '\zs')
+                if c ==# "\xFF"    " separator
+                    let ret .= "\xFE\xFF"
+                elseif c ==# "\xFE"    " escape character
+                    let ret .= "\xFE\xFE"
+                else
+                    let ret .= c
+                endif
+            endfor
+            let ret .= "\xFF"
+        endfor
+        return ret . "\xFF"    " \xFF\xFF at the end of data.
+    endif
+endfunction "}}}
+function! s:deserialize(bytes) "{{{
+    if type(a:bytes) != type("")
+        throw printf('syslib: s:deserialize(): invalid argument')
+    else
+        let cur_arg = ''
+        let ret = []
+        let pos = 0
+        let len = strlen(a:bytes)
+        let invalid_argument = 'syslib: s:deserialize(): invalid byte sequence'
+        while pos < len
+            let char      = a:bytes[pos]
+            let next_char = a:bytes[pos + 1]
+
+            if char ==# "\xFE"    " escape character
+                if pos + 1 >= len
+                    throw invalid_argument . " - No more bytes"
+                elseif next_char ==# "\xFE"
+                    let cur_arg .= "\xFE"
+                    let pos += 2
+                    continue
+                elseif next_char ==# "\xFF"
+                    let cur_arg .= "\xFF"
+                    let pos += 2
+                    continue
+                else
+                    throw invalid_argument . " - Escaped but not special character"
+                endif
+            elseif char ==# "\xFF"    " separator
+                call add(ret, cur_arg)
+                if next_char ==# "\xFF"
+                    return ret
+                endif
+                let cur_arg = ''
+                let pos += 1
+            else
+                let cur_arg .= char
+                let pos += 1
+            endif
+        endwhile
+        throw invalid_argument . " - End of bytes"
     endif
 endfunction "}}}
 
@@ -159,14 +248,6 @@ endfunction "}}}
 
 function! syslib#rename_directory(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#rename_directory', a:000)
-endfunction "}}}
-
-function! syslib#create_symlink(...) "{{{
-    return call('syslib#' . syslib#get_os_name() . '#create_symlink', a:000)
-endfunction "}}}
-
-function! syslib#create_hardlink(...) "{{{
-    return call('syslib#' . syslib#get_os_name() . '#create_hardlink', a:000)
 endfunction "}}}
 
 
@@ -194,6 +275,7 @@ endfunction "}}}
 function! syslib#flush_file_fd(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#flush_file_fd', a:000)
 endfunction "}}}
+
 " }}}
 
 " Restore 'cpoptions' {{{
