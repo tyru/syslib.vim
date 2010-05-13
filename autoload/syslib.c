@@ -40,13 +40,13 @@
 
 
 /* API */
-int get_current_errno(void);
-int get_last_errno(void);
-int remove_directory(const char *pathname);
-int create_symlink(const char *args);
-int create_symlink_args(const char *from_symlink, const char *to_path);
-int create_hardlink(const char *args);
-int create_hardlink_args(const char *from_hardlink, const char *to_path);
+int syslib_get_current_errno(void);
+int syslib_get_last_errno(void);
+int syslib_remove_directory(const char *pathname);
+int syslib_create_symlink(const char *args);
+int syslib_create_symlink_args(const char *from_symlink, const char *to_path);
+int syslib_create_hardlink(const char *args);
+int syslib_create_hardlink_args(const char *from_hardlink, const char *to_path);
 
 
 
@@ -173,19 +173,19 @@ deserialize_args(const char *args)
 
 
 int
-get_current_errno(void)
+syslib_get_current_errno(void)
 {
     return errno;
 }
 
 int
-get_last_errno(void)
+syslib_get_last_errno(void)
 {
     return last_errno;
 }
 
 int
-remove_directory(const char *pathname)
+syslib_remove_directory(const char *pathname)
 {
     int ret = rmdir(pathname);
     if (ret == -1) {
@@ -195,13 +195,13 @@ remove_directory(const char *pathname)
 }
 
 int
-create_symlink(const char *args)
+syslib_create_symlink(const char *args)
 {
     NodeArg *real_args = deserialize_args(args);
-    return create_symlink_args(real_args->buf, real_args->next->buf);
+    return syslib_create_symlink_args(real_args->buf, real_args->next->buf);
 }
 int
-create_symlink_args(const char *from_symlink, const char *to_path)
+syslib_create_symlink_args(const char *from_symlink, const char *to_path)
 {
     int ret = symlink(to_path, from_symlink);
     if (ret == -1) {
@@ -211,13 +211,13 @@ create_symlink_args(const char *from_symlink, const char *to_path)
 }
 
 int
-create_hardlink(const char *args)
+syslib_create_hardlink(const char *args)
 {
     NodeArg *real_args = deserialize_args(args);
-    return create_hardlink_args(real_args->buf, real_args->next->buf);
+    return syslib_create_hardlink_args(real_args->buf, real_args->next->buf);
 }
 int
-create_hardlink_args(const char *from_hardlink, const char *to_path)
+syslib_create_hardlink_args(const char *from_hardlink, const char *to_path)
 {
     int ret = link(to_path, from_hardlink);
     if (ret == -1) {

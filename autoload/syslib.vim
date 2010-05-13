@@ -156,7 +156,7 @@ function! s:libcall(libcallnr, funcname, args) "{{{
     \   (a:libcallnr ? 'libcallnr' : 'libcall'),
     \   [
     \       g:syslib_dll_path,
-    \       a:funcname,
+    \       'syslib_' . a:funcname,
     \       (empty(a:args) ? '' : s:serialize(a:args)),
     \   ]
     \)
