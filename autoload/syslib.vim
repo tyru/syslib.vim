@@ -133,12 +133,12 @@ function! syslib#get_last_errno() "{{{
     return syslib#_libcallnr('get_last_errno', [])
 endfunction "}}}
 
-function! syslib#create_symlink(from_symlink, to_path) "{{{
-    return syslib#_libcallnr('create_symlink', [a:from_symlink, a:to_path])
+function! syslib#create_symlink(path, symlink_path) "{{{
+    return syslib#_libcallnr('create_symlink', [a:path, a:symlink_path])
 endfunction "}}}
 
-function! syslib#create_hardlink(from_hardlink, to_path) "{{{
-    return syslib#_libcallnr('create_hardlink', [a:from_hardlink, a:to_path])
+function! syslib#create_hardlink(path, hardlink_path) "{{{
+    return syslib#_libcallnr('create_hardlink', [a:path, a:hardlink_path])
 endfunction "}}}
 
 

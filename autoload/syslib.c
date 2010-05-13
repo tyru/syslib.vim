@@ -201,9 +201,9 @@ syslib_create_symlink(const char *args)
     return syslib_create_symlink_args(real_args->buf, real_args->next->buf);
 }
 int
-syslib_create_symlink_args(const char *from_symlink, const char *to_path)
+syslib_create_symlink_args(const char *path, const char *symlink_path)
 {
-    int ret = symlink(to_path, from_symlink);
+    int ret = symlink(path, symlink_path);
     if (ret == -1) {
         last_errno = ret;
     }
@@ -217,9 +217,9 @@ syslib_create_hardlink(const char *args)
     return syslib_create_hardlink_args(real_args->buf, real_args->next->buf);
 }
 int
-syslib_create_hardlink_args(const char *from_hardlink, const char *to_path)
+syslib_create_hardlink_args(const char *path, const char *hardlink_path)
 {
-    int ret = link(to_path, from_hardlink);
+    int ret = link(path, hardlink_path);
     if (ret == -1) {
         last_errno = ret;
     }
