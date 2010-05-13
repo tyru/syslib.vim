@@ -40,6 +40,8 @@ function! syslib#load() "{{{
     " dummy function to load this file.
 endfunction "}}}
 
+
+
 " Wrapper for built-in functions.
 function! syslib#create_directory(name, ...) "{{{
     return call('mkdir', [a:name, ''] + a:000)
@@ -265,6 +267,7 @@ endfunction "}}}
 function! syslib#flush_file_fd(...) "{{{
     return call('syslib#' . syslib#get_os_name() . '#flush_file_fd', a:000)
 endfunction "}}}
+
 " }}}
 
 " Restore 'cpoptions' {{{
