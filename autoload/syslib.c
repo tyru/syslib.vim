@@ -28,7 +28,7 @@
 
 #ifdef NDEBUG
 #   define syslib_log(str)
-#   define syslib_logf()
+#   define syslib_logf
 #else
 #   include <stdio.h>
 #   define syslib_log(str)  puts(str)
