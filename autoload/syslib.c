@@ -44,9 +44,9 @@ int syslib_get_current_errno(void);
 int syslib_get_last_errno(void);
 int syslib_remove_directory(const char *pathname);
 int syslib_create_symlink(const char *args);
-int syslib_create_symlink_args(const char *from_symlink, const char *to_path);
+static int syslib_create_symlink_args(const char *path, const char *symlink_path);
 int syslib_create_hardlink(const char *args);
-int syslib_create_hardlink_args(const char *from_hardlink, const char *to_path);
+static int syslib_create_hardlink_args(const char *path, const char *hardlink_path);
 
 
 
@@ -200,7 +200,7 @@ syslib_create_symlink(const char *args)
     NodeArg *real_args = deserialize_args(args);
     return syslib_create_symlink_args(real_args->buf, real_args->next->buf);
 }
-int
+static int
 syslib_create_symlink_args(const char *path, const char *symlink_path)
 {
     int ret = symlink(path, symlink_path);
@@ -216,7 +216,7 @@ syslib_create_hardlink(const char *args)
     NodeArg *real_args = deserialize_args(args);
     return syslib_create_hardlink_args(real_args->buf, real_args->next->buf);
 }
-int
+static int
 syslib_create_hardlink_args(const char *path, const char *hardlink_path)
 {
     int ret = link(path, hardlink_path);
