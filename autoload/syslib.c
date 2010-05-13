@@ -40,7 +40,7 @@ syslib_remove_directory(const char *pathname)
     if (ret == -1) {
         last_errno = errno;
     }
-    return ret;
+    return ret != -1;
 }
 
 int
