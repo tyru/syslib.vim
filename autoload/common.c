@@ -28,10 +28,29 @@
 #ifdef NDEBUG
 #   define syslib_log(str)
 #   define syslib_logf(fmt, ...)
+#   define syslib_flogf(fmt, ...)
 #else
 #   include <stdio.h>
+#   include <stdarg.h>
+#   ifndef SYSLIB_LOG_FILE
+#       define SYSLIB_LOG_FILE "/tmp/syslib-debug.log"
+#   endif
 #   define syslib_log(str)  puts(str)
 #   define syslib_logf(fmt, ...) printf(fmt, __VA_ARGS__)
+static int
+syslib_flogf(const char *fmt, ...)
+{
+    FILE *f = fopen(SYSLIB_LOG_FILE, "a+");
+    if (f == NULL) abort();
+
+    va_list vargs;
+    va_start(vargs, fmt);
+    int ret = vfprintf(f, fmt, vargs);
+
+    fclose(f);
+
+    return ret;
+}
 #endif
 
 
