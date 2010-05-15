@@ -3,7 +3,7 @@
  * syslib.c
  *
  * Written By: tyru <tyru.exe@gmail.com>
- * Last Change: 2010-05-14.
+ * Last Change: 2010-05-15.
  *
  */
 
@@ -56,7 +56,7 @@ syslib_create_symlink_args(const char *path, const char *symlink_path)
     if (ret == -1) {
         last_errno = ret;
     }
-    return ret;
+    return ret != -1;
 }
 
 int
@@ -72,5 +72,5 @@ syslib_create_hardlink_args(const char *path, const char *hardlink_path)
     if (ret == -1) {
         last_errno = ret;
     }
-    return ret;
+    return ret != -1;
 }
