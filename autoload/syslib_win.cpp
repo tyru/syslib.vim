@@ -3,15 +3,18 @@
  * syslib_win.cpp
  *
  * Written By: tyru <tyru.exe@gmail.com>
- * Last Change: 2010-05-15.
+ * Last Change: 2010-05-16.
  *
  */
 
 #include "common.c"
 
 #include <windows.h>
-
 #include <shlobj.h>
+
+#if defined(_WIN32) || defined(__WIN32__)
+#pragma comment(lib, "ole32.lib")
+#endif
 
 
 

@@ -10,7 +10,16 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <alloca.h>
+
+#if defined(_WIN32) || defined(__WIN32__)
+#   include <malloc.h>
+#   ifdef alloca
+#       undef alloca
+#   endif
+#   define alloca _malloca
+#else
+#   include <alloca.h>
+#endif
 
 
 
@@ -168,7 +177,7 @@ deserialize_args(const char *args)
         return NULL;
     }
 
-    cur_arg = alloca(strlen(args) + 1);
+    cur_arg = (char*)alloca(strlen(args) + 1);
 
     while (pos < len) {
         switch (args[pos]) {
@@ -222,5 +231,8 @@ deserialize_args(const char *args)
             break;
         }
     }
+
+    /* NEVERREACHED */
     abort();    /* End of bytes */
+    return NULL; /* Shut up compiler's warning */
 }
