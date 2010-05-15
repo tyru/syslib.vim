@@ -1,4 +1,4 @@
-CFLAGS=-W -Wall -Wno-unused -std=gnu99 -pedantic -shared
+CFLAGS=-W -Wall -Wno-unused -std=c89 -pedantic -shared
 
 TARGET=autoload/syslib.dll
 SRC=autoload/syslib.c

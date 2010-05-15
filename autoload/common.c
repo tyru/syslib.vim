@@ -3,17 +3,18 @@
  * common.c
  *
  * Written By: tyru <tyru.exe@gmail.com>
- * Last Change: 2010-05-15.
+ * Last Change: 2010-05-16.
  *
  */
 
 
 #include <string.h>
 #include <stdlib.h>
+#include <alloca.h>
 
 
 
-// TOOD If compiler has `inline`, #define INLINE inline
+/* TOOD If compiler has `inline`, #define INLINE inline */
 #ifndef INLINE
 #   define INLINE
 #endif
@@ -27,17 +28,34 @@
 
 #ifdef NDEBUG
 #   define syslib_log(str)
-#   define syslib_logf(fmt, ...)
-#   define syslib_flogf(fmt, ...)
+INLINE static void
+syslib_logf(const char *fmt, ...)
+{
+}
+INLINE static void
+syslib_flogf(const char *fmt, ...)
+{
+}
 #else
 #   include <stdio.h>
 #   include <stdarg.h>
 #   ifndef SYSLIB_LOG_FILE
+        /* TODO Support logging in win32 environment */
 #       define SYSLIB_LOG_FILE "/tmp/syslib-debug.log"
 #   endif
 #   define syslib_log(str)  puts(str)
-#   define syslib_logf(fmt, ...) printf(fmt, __VA_ARGS__)
-static int
+INLINE static int
+syslib_logf(const char *fmt, ...)
+{
+    va_list vargs;
+    int ret;
+
+    va_start(vargs, fmt);
+    ret = vprintf(fmt, vargs);
+    va_end(vargs);
+    return ret;
+}
+INLINE static int
 syslib_flogf(const char *fmt, ...)
 {
     FILE *f = fopen(SYSLIB_LOG_FILE, "a+");
@@ -75,9 +93,6 @@ static int syslib_create_hardlink_args(const char *path, const char *hardlink_pa
 }
 #endif
 
-#undef SYSLIB_DECL_BEGIN
-#undef SYSLIB_DECL_END
-
 
 
 /* NodeArg types */
@@ -89,7 +104,7 @@ typedef struct NodeArg_tag {
 
 
 /* Global variables */
-static NodeArg *the_args = NULL;    // Top argument.
+static NodeArg *the_args = NULL;    /* Top argument */
 static int last_errno = 0;
 
 
@@ -129,25 +144,31 @@ set_buf_to_arg(NodeArg *arg, char *buf)
 
 /* NodeArg functions */
 
-// TODO
-// static NodeArg*
-// serialize_args(NodeArg *args)
-// {
-// }
+/*
+ * TODO
+ *
+ * static NodeArg*
+ * serialize_args(NodeArg *args)
+ * {
+ * }
+ *
+ */
 
 static NodeArg*
 deserialize_args(const char *args)
 {
+    int debug_arg_count = 1;
+    NodeArg *prev_node_ptr = the_args;
+    char *cur_arg;
+    size_t cur_arg_pos = 0;
+    size_t pos = 0;
+    size_t len = strlen(args);
+
     if (args[0] == '\0') {
         return NULL;
     }
 
-    int debug_arg_count = 1;
-    NodeArg *prev_node_ptr = the_args;
-    char cur_arg[strlen(args)];    // c99
-    size_t cur_arg_pos = 0;
-    size_t pos = 0;
-    size_t len = strlen(args);
+    cur_arg = alloca(strlen(args));
 
     while (pos < len) {
         switch (args[pos]) {
