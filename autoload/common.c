@@ -27,15 +27,11 @@
 
 #ifdef NDEBUG
 #   define syslib_log(str)
-INLINE static int
-syslib_logf(const char *fmt, ...)
-{
-    return 1;
-}
+#   define syslib_logf(fmt, ...)
 #else
 #   include <stdio.h>
 #   define syslib_log(str)  puts(str)
-#   define syslib_logf printf
+#   define syslib_logf(fmt, ...) printf(fmt, __VA_ARGS__)
 #endif
 
 
