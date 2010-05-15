@@ -29,6 +29,14 @@
 #endif
 
 
+
+/* Utilities */
+#ifdef __CYGWIN__ /* cygwin has no strdup(). */
+#   define strdup(s) malloc(strlen(s))
+#endif
+
+
+
 /* Debug */
 
 #define NDEBUG 1
@@ -127,7 +135,7 @@ create_arg(const char *buf)
     }
 
     node->next = NULL;
-    node->buf = strdup(buf);
+    node->buf = (char*)strdup(buf);
     node->buf_size = strlen(buf) + 1;
 
     return node;
