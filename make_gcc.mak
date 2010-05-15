@@ -1,7 +1,7 @@
 CFLAGS=-W -Wall -Wno-unused -std=c89 -pedantic -shared
 
 TARGET=autoload/syslib.so
-SRC=autoload/syslib.c
+SRC=src/syslib.c
 CFLAGS+=-fPIC
 # LDFLAGS+=-lutil
 
