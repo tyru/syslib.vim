@@ -11,7 +11,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-#if defined(_WIN32) || defined(__WIN32__)
+#if defined(__GNUC__)
+#   define alloca __builtin_alloca
+#elif defined(_WIN32) || defined(__WIN32__)
 #   include <malloc.h>
 #   ifdef alloca
 #       undef alloca
