@@ -138,6 +138,10 @@ set_buf_to_arg(NodeArg *arg, char *buf)
 static NodeArg*
 deserialize_args(const char *args)
 {
+    if (args[0] == '\0') {
+        return NULL;
+    }
+
     int debug_arg_count = 1;
     NodeArg *prev_node_ptr = the_args;
     char cur_arg[strlen(args)];    // c99
