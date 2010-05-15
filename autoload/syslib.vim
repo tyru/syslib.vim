@@ -12,8 +12,13 @@ if has('win16') || has('win32') || has('win64') || has('win95')
     function! syslib#get_os_name()
         return 'win'
     endfunction
-elseif has('unix') || has('win32unix')
-    " Unix like environment (currently cygwin included).
+elseif has('win32unix')
+    " cygwin
+    function! syslib#get_os_name()
+        return 'cygwin'
+    endfunction
+elseif has('unix')
+    " Unix like environment
     function! syslib#get_os_name()
         return 'unix'
     endfunction
