@@ -12,7 +12,7 @@
 #include <windows.h>
 #include <shlobj.h>
 
-#if defined(_WIN32) || defined(__WIN32__)
+#if (defined(_WIN32) || defined(__WIN32__)) && !defined(__MINGW32__)
 #pragma comment(lib, "ole32.lib")
 #endif
 
