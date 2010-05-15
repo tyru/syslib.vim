@@ -3,7 +3,7 @@
  * common.c
  *
  * Written By: tyru <tyru.exe@gmail.com>
- * Last Change: 2010-05-14.
+ * Last Change: 2010-05-15.
  *
  */
 
@@ -14,7 +14,9 @@
 
 
 // TOOD If compiler has `inline`, #define INLINE inline
-#define INLINE
+#ifndef INLINE
+#   define INLINE
+#endif
 
 
 /* Debug */
