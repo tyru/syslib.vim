@@ -168,7 +168,7 @@ deserialize_args(const char *args)
         return NULL;
     }
 
-    cur_arg = alloca(strlen(args));
+    cur_arg = alloca(strlen(args) + 1);
 
     while (pos < len) {
         switch (args[pos]) {
