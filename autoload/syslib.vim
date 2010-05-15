@@ -12,15 +12,36 @@ if has('win16') || has('win32') || has('win64') || has('win95')
     function! syslib#get_os_name()
         return 'win'
     endfunction
+
+    function! syslib#supported_symlink()
+        return 0
+    endfunction
+    function! syslib#supported_hardlink()
+        return 0
+    endfunction
 elseif has('win32unix')
     " cygwin
     function! syslib#get_os_name()
         return 'cygwin'
     endfunction
+
+    function! syslib#supported_symlink()
+        return 0
+    endfunction
+    function! syslib#supported_hardlink()
+        return 0
+    endfunction
 elseif has('unix')
     " Unix like environment
     function! syslib#get_os_name()
         return 'unix'
+    endfunction
+
+    function! syslib#supported_symlink()
+        return 1
+    endfunction
+    function! syslib#supported_hardlink()
+        return 1
     endfunction
 else
     echoerr "Sorry, syslib.vim does not support your environment."
