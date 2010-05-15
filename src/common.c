@@ -136,6 +136,9 @@ create_arg(const char *buf)
 
     node->next = NULL;
     node->buf = (char*)strdup(buf);
+    if (node->buf == NULL) {
+        abort();
+    }
     node->buf_size = strlen(buf) + 1;
 
     return node;
