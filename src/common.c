@@ -75,12 +75,15 @@ syslib_logf(const char *fmt, ...)
 INLINE static int
 syslib_flogf(const char *fmt, ...)
 {
-    FILE *f = fopen(SYSLIB_LOG_FILE, "a+");
+    va_list vargs;
+    FILE *f;
+    int ret;
+
+    f = fopen(SYSLIB_LOG_FILE, "a+");
     if (f == NULL) abort();
 
-    va_list vargs;
     va_start(vargs, fmt);
-    int ret = vfprintf(f, fmt, vargs);
+    ret = vfprintf(f, fmt, vargs);
 
     fclose(f);
 
