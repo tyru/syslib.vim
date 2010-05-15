@@ -78,7 +78,7 @@ static int last_errno = 0;
 static NodeArg*
 create_arg(const char *buf)
 {
-    NodeArg *node = malloc(sizeof(NodeArg));
+    NodeArg *node = (NodeArg*)malloc(sizeof(NodeArg));
     if (node == NULL) {
         abort();
     }
@@ -97,7 +97,7 @@ set_buf_to_arg(NodeArg *arg, char *buf)
     assert(arg->buf != NULL);
 
     if (arg->buf_size < buf_size) {
-        arg->buf = realloc(arg->buf, buf_size);
+        arg->buf = (char*)realloc(arg->buf, buf_size);
         if (arg->buf == NULL) {
             abort();
         }
