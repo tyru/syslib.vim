@@ -1,4 +1,4 @@
-CFLAGS=-W -Wall -Wno-unused -std=c89 -pedantic -shared
+CFLAGS=-W -Wall -Wno-unused -pedantic -shared
 
 SRC=src/syslib_win.cpp
 all: autoload/syslib.dll
