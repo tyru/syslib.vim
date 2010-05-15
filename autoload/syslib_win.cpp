@@ -3,7 +3,7 @@
  * syslib_win.cpp
  *
  * Written By: tyru <tyru.exe@gmail.com>
- * Last Change: 2010-05-14.
+ * Last Change: 2010-05-15.
  *
  */
 
@@ -49,8 +49,7 @@ syslib_create_symlink_args(LPCSTR lpszPathObj, LPCSTR lpszPathLink)
     // Get a pointer to the IShellLink interface.
     hres = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER,
                             IID_IShellLink, (LPVOID*)&psl);
-    if (SUCCEEDED(hres))
-    {
+    if (SUCCEEDED(hres)) {
         IPersistFile* ppf;
 
         // Set the path to the shortcut target and add the description.
@@ -60,8 +59,7 @@ syslib_create_symlink_args(LPCSTR lpszPathObj, LPCSTR lpszPathLink)
         // shortcut in persistent storage.
         hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
 
-        if (SUCCEEDED(hres))
-        {
+        if (SUCCEEDED(hres)) {
             WCHAR wsz[MAX_PATH];
 
             // Ensure that the string is Unicode.
@@ -76,7 +74,7 @@ syslib_create_symlink_args(LPCSTR lpszPathObj, LPCSTR lpszPathLink)
         }
         psl->Release();
     }
-    return static_cast<int>(hres);
+    return SUCCEEDED(static_cast<int>(hres));
 }
 
 int
