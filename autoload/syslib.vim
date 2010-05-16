@@ -225,6 +225,7 @@ function! s:serialize(args) "{{{
     else
         let ret = ''
         for arg in a:args
+            let ret .= nr2char(type(arg))
             for c in split(arg, '\zs')
                 if c ==# "\xFF"    " separator
                     let ret .= "\xFE\xFF"
@@ -240,12 +241,13 @@ function! s:serialize(args) "{{{
     endif
 endfunction "}}}
 function! s:deserialize(bytes) "{{{
-    if type(a:bytes) != type("")
+    if type(a:bytes) != type("") || strlen(a:bytes) == 0
         throw printf('syslib: s:deserialize(): invalid argument')
     else
         let cur_arg = ''
+        let cur_type = char2nr(a:bytes[0])
         let ret = []
-        let pos = 0
+        let pos = 1
         let len = strlen(a:bytes)
         let invalid_argument = 'syslib: s:deserialize(): invalid byte sequence'
         while pos < len
@@ -267,18 +269,33 @@ function! s:deserialize(bytes) "{{{
                     throw invalid_argument . " - Escaped but not special character"
                 endif
             elseif char ==# "\xFF"    " separator
-                call add(ret, cur_arg)
+                call add(ret, s:convert_type(cur_arg, cur_type))
                 if next_char ==# "\xFF"
                     return ret
                 endif
                 let cur_arg = ''
-                let pos += 1
+                let cur_type = char2nr(next_char)
+                let pos += 2
             else
                 let cur_arg .= char
                 let pos += 1
             endif
         endwhile
         throw invalid_argument . " - End of bytes"
+    endif
+endfunction "}}}
+function! s:convert_type(bytes, type) "{{{
+    if a:type == type(0)
+        return str2nr(a:bytes)
+    elseif a:type == type("")
+        return a:bytes
+    " elseif a:type == type(function('tr'))
+    " elseif a:type == type([])
+    " elseif a:type == type({})
+    elseif a:type == type(0.0)
+        return str2float(a:bytes)
+    else
+        throw "s:convert_type() - invalid type"
     endif
 endfunction "}}}
 

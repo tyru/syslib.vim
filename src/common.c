@@ -185,13 +185,15 @@ deserialize_args(const char *args)
     int debug_arg_count = 1;
     NodeArg *prev_node_ptr = the_args;
     char *cur_arg;
+    size_t cur_type;
     size_t cur_arg_pos = 0;
-    size_t pos = 0;
+    size_t pos = 1;
     size_t len = strlen(args);
 
     if (args[0] == '\0') {
         return NULL;
     }
+    cur_type = args[0];
 
     cur_arg = (char*)alloca(strlen(args) + 1);
 
@@ -218,6 +220,8 @@ deserialize_args(const char *args)
         case '\xFF':
             cur_arg[cur_arg_pos] = '\0';
 
+            /* NOTE: Currently can't manipulate `cur_arg` as only string. */
+
             if (the_args == NULL) {
                 assert(prev_node_ptr == NULL);
                 the_args = prev_node_ptr = create_arg(cur_arg);
@@ -239,7 +243,8 @@ deserialize_args(const char *args)
             }
 
             cur_arg_pos = 0;
-            pos++;
+            cur_type = args[pos + 1];
+            pos += 2;
             break;
         default:
             cur_arg[cur_arg_pos++] = args[pos];
