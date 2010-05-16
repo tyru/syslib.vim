@@ -34,7 +34,7 @@
 
 /* Utilities */
 #ifdef __CYGWIN__ /* cygwin has no strdup(). */
-#   define strdup(s) malloc(strlen(s))
+#   define strdup(s) (char*)malloc(strlen(s))
 #endif
 
 
@@ -140,7 +140,7 @@ create_arg(const char *buf)
     }
 
     node->next = NULL;
-    node->buf = (char*)strdup(buf);
+    node->buf = strdup(buf);
     if (node->buf == NULL) {
         abort();
     }
