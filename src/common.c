@@ -260,3 +260,13 @@ deserialize_args(const char *args)
     abort();    /* End of bytes */
     return NULL; /* Shut up compiler's warning */
 }
+
+INLINE static NodeArg*
+ref_arg(NodeArg *args, size_t index)
+{
+    size_t i;
+    for (i = 0; i < index; i++) {
+        args = args->next;
+    }
+    return args;
+}
