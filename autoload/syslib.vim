@@ -175,32 +175,32 @@ endfunction "}}}
 
 
 function! syslib#get_current_errno() "{{{
-    return syslib#_libcallnr('get_current_errno', [])
+    return syslib#_syslib_libcallnr('get_current_errno', [])
 endfunction "}}}
 
 function! syslib#get_last_errno() "{{{
-    return syslib#_libcallnr('get_last_errno', [])
+    return syslib#_syslib_libcallnr('get_last_errno', [])
 endfunction "}}}
 
 function! syslib#remove_directory(name) "{{{
-    return syslib#_libcallnr('remove_directory', [a:name])
+    return syslib#_syslib_libcallnr('remove_directory', [a:name])
 endfunction "}}}
 
 function! syslib#create_symlink(path, symlink_path) "{{{
-    return syslib#_libcallnr('create_symlink', [a:path, a:symlink_path])
+    return syslib#_syslib_libcallnr('create_symlink', [a:path, a:symlink_path])
 endfunction "}}}
 
 function! syslib#create_hardlink(path, hardlink_path) "{{{
-    return syslib#_libcallnr('create_hardlink', [a:path, a:hardlink_path])
+    return syslib#_syslib_libcallnr('create_hardlink', [a:path, a:hardlink_path])
 endfunction "}}}
 
 
 
-function! syslib#_libcall(...) "{{{
+function! syslib#_syslib_libcall(...) "{{{
     return s:deserialize(call('s:libcall', [0] + a:000))
 endfunction "}}}
 
-function! syslib#_libcallnr(...) "{{{
+function! syslib#_syslib_libcallnr(...) "{{{
     return call('s:libcall', [1] + a:000)
 endfunction "}}}
 
