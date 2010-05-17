@@ -3,7 +3,7 @@
  * common.c
  *
  * Written By: tyru <tyru.exe@gmail.com>
- * Last Change: 2010-05-17.
+ * Last Change: 2010-05-18.
  *
  */
 
@@ -269,4 +269,14 @@ args_ref(NodeArg *args, size_t index)
         args = args->next;
     }
     return args;
+}
+
+INLINE static size_t
+args_len(NodeArg *args)
+{
+    size_t i;
+    for (i = 0; args != NULL; i++) {
+        args = args->next;
+    }
+    return i;
 }
