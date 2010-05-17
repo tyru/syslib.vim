@@ -3,7 +3,7 @@
  * syslib.c
  *
  * Written By: tyru <tyru.exe@gmail.com>
- * Last Change: 2010-05-17.
+ * Last Change: 2010-05-18.
  *
  */
 
@@ -46,8 +46,17 @@ syslib_remove_directory(const char *pathname)
 int
 syslib_create_symlink(const char *args)
 {
-    NodeArg *real_args = deserialize_args(args);
-    return syslib_create_symlink_args(args_ref(real_args, 0)->buf, args_ref(real_args, 1)->buf);
+    NodeArg *real_args = deserialize_args(args, 2);
+    if (real_args != NULL) {
+        return syslib_create_symlink_args(args_ref(real_args, 0)->buf, args_ref(real_args, 1)->buf);
+    }
+    else {
+        /* TODO:
+         * Get last error not system's last error.
+         * e.g.: invalid argument
+         */
+        return 0;
+    }
 }
 static int
 syslib_create_symlink_args(const char *path, const char *symlink_path)
@@ -62,8 +71,17 @@ syslib_create_symlink_args(const char *path, const char *symlink_path)
 int
 syslib_create_hardlink(const char *args)
 {
-    NodeArg *real_args = deserialize_args(args);
-    return syslib_create_hardlink_args(args_ref(real_args, 0)->buf, args_ref(real_args, 1)->buf);
+    NodeArg *real_args = deserialize_args(args, 2);
+    if (real_args != NULL) {
+        return syslib_create_hardlink_args(args_ref(real_args, 0)->buf, args_ref(real_args, 1)->buf);
+    }
+    else {
+        /* TODO:
+         * Get last error not system's last error.
+         * e.g.: invalid argument
+         */
+        return 0;
+    }
 }
 static int
 syslib_create_hardlink_args(const char *path, const char *hardlink_path)

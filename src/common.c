@@ -183,9 +183,9 @@ set_buf_to_arg(NodeArg *arg, char *buf)
  */
 
 static NodeArg*
-deserialize_args(const char *args)
+deserialize_args(const char *args, size_t args_len)
 {
-    int debug_arg_count = 1;
+    size_t arg_count = 0;
     NodeArg *prev_node_ptr = the_args;
     char *cur_arg;
     size_t cur_type;
@@ -238,11 +238,14 @@ deserialize_args(const char *args)
                 prev_node_ptr = prev_node_ptr->next;
             }
 
-            syslib_logf("argument %d: %s\n", debug_arg_count, cur_arg);
-            debug_arg_count++;
+            arg_count++;
+            syslib_logf("argument %d: %s\n", arg_count, cur_arg);
 
             if (args[pos + 1] == '\xFF') {
-                return the_args;
+                if (arg_count == args_len)
+                    return the_args;
+                else
+                    return NULL;
             }
 
             cur_arg_pos = 0;
