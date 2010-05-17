@@ -195,15 +195,15 @@ function! syslib#create_hardlink(path, hardlink_path) "{{{
 endfunction "}}}
 
 
+function! syslib#libcall(libname, funcname, args) "{{{
+endfunction "}}}
 
 function! syslib#_syslib_libcall(...) "{{{
     return s:deserialize(call('s:libcall', [0] + a:000))
 endfunction "}}}
-
 function! syslib#_syslib_libcallnr(...) "{{{
     return call('s:libcall', [1] + a:000)
 endfunction "}}}
-
 function! s:libcall(libcallnr, funcname, args) "{{{
     return call(
     \   (a:libcallnr ? 'libcallnr' : 'libcall'),

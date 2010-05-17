@@ -3,7 +3,7 @@
  * common.c
  *
  * Written By: tyru <tyru.exe@gmail.com>
- * Last Change: 2010-05-16.
+ * Last Change: 2010-05-17.
  *
  */
 
@@ -105,9 +105,12 @@ extern "C" {
 
 int syslib_get_current_errno(void);
 int syslib_get_last_errno(void);
+
 int syslib_remove_directory(const char *pathname);
+
 int syslib_create_symlink(const char *args);
 static int syslib_create_symlink_args(const char *path, const char *symlink_path);
+
 int syslib_create_hardlink(const char *args);
 static int syslib_create_hardlink_args(const char *path, const char *hardlink_path);
 
