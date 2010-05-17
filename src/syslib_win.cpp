@@ -41,7 +41,7 @@ int
 syslib_create_symlink(const char *args)
 {
     NodeArg *real_args = deserialize_args(args);
-    return syslib_create_symlink_args(ref_arg(real_args, 0)->buf, ref_arg(real_args, 1)->buf);
+    return syslib_create_symlink_args(args_ref(real_args, 0)->buf, args_ref(real_args, 1)->buf);
 }
 static int
 syslib_create_symlink_args(LPCSTR lpszPathObj, LPCSTR lpszPathLink)

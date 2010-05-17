@@ -262,7 +262,7 @@ deserialize_args(const char *args)
 }
 
 INLINE static NodeArg*
-ref_arg(NodeArg *args, size_t index)
+args_ref(NodeArg *args, size_t index)
 {
     size_t i;
     for (i = 0; i < index; i++) {
