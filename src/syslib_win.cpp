@@ -49,7 +49,7 @@ syslib_create_symlink(const char *args)
          * Get last error not system's last error.
          * e.g.: invalid argument
          */
-        return 0;
+        return FALSE;
     }
 }
 static int
