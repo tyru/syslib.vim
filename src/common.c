@@ -3,7 +3,7 @@
  * common.c
  *
  * Written By: tyru <tyru.exe@gmail.com>
- * Last Change: 2010-05-18.
+ * Last Change: 2010-08-19.
  *
  */
 
@@ -34,7 +34,7 @@
 
 /* Utilities */
 #ifdef __CYGWIN__ /* cygwin has no strdup(). */
-#   define strdup(s) (char*)malloc(strlen(s))
+#   define strdup(s) (char*)malloc(strlen(s) + 1)
 #endif
 
 #ifndef TRUE
